@@ -24,7 +24,7 @@
 1. trouver l'ip du conteneur php pour éditer le nginx.conf (fastcgi_pass et server_name =>ip de l'hôte)
   * `docker inspect php_fpm -f "ip: {{.NetworkSettings.IPAddress}}"`
 2. copier nginx_conf/nginx.conf dans le conteneur nginx => /etc/nginx/conf.f/nginx.conf
-  * `docker cp /vagrant/conf_nginx/php8.2.conf nginx-11:/etc/nginx/conf.d/php8.2.conf`
+  * `docker cp /vagrant/php8.2.conf nginx:/etc/nginx/conf.d/php8.2.conf`
 3. copier index_php/index.php dans le conteneur php-fpm => /srv/index.php
   > rappel: le contenu du dossier contenant le Vagrantfile est dispo dans la vm sous /vagrant
   * `docker cp /vagrant/php_index/index.php php_fpm:/srv/index.php`
