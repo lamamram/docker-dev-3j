@@ -21,3 +21,4 @@ docker run \
 --net stack-php \
 -v /vagrant/php8.2.conf:/etc/nginx/conf.d/php8.2.conf:ro \
 nginx:1.22
+
