@@ -35,7 +35,7 @@
 
 1. création conteneur php_fpm et copie du index.php
 2. création d'un alias réseau "app_fpm" (hostname) pour le conteneur php_fpm dans le conteneur nginx
-  * `docker run --name nginx-11 -d --restart unless-stopped -p 8080:80 --link php-11[:alias] nginx:1.22`
+  * `docker run --name nginx -d --restart unless-stopped -p 8080:80 --link php8[:alias] nginx:1.22`
 3. on remplace l'ip du conteneur par app_php dans la conf nginx et on copie
 4. après copie exécuter chown root:root sur la copie qui appartient à l'uid 1000 (vagrant)
   * `docker exec nginx chown root:root /etc/nginx/conf.d/nginx.conf`
@@ -50,12 +50,12 @@
   - `docker network ls` 
 
 * créer un réseau custom: choix du driver, subnet et gateway au min (valeurs par défauts ci dessous)
-  - `docker network create --driver=bridge --subnet=172.18.0.0/16 --gateway=172.18.0.1 stack-11`
+  - `docker network create --driver=bridge --subnet=172.18.0.0/16 --gateway=172.18.0.1 stack-php`
 
 * connecter un conteneur à un réseau
-  - `docker network connect stack-11 nginx-11`
+  - `docker network connect stack-php nginx`
 
 * idem à la création du conteneur (option --net)
-  - `docker run --name nginx-11 -d --restart unless-stopped -p 8080:80 --net=stack-11 nginx:1.22`
-  > sur un réseau bridge custom, le nom du contenur est directement un alias réseau !!!
+  - `docker run --name nginx-11 -d --restart unless-stopped -p 8080:80 --net=stack-php nginx:1.22`
+  > sur un réseau bridge custom, le nom du conteneur est directement un alias réseau !!!
 
