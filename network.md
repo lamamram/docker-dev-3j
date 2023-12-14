@@ -27,7 +27,7 @@
   * `docker cp /vagrant/php8.2.conf nginx:/etc/nginx/conf.d/php8.2.conf`
 3. copier index_php/index.php dans le conteneur php-fpm => /srv/index.php
   > rappel: le contenu du dossier contenant le Vagrantfile est dispo dans la vm sous /vagrant
-  * `docker cp /vagrant/php_index/index.php php_fpm:/srv/index.php`
+  * `docker cp /vagrant/index.php php8:/srv/index.php`
 
 ### utiliser des alias réseaux avec --link (uniquement avec le bridge par défaut)
 
