@@ -13,15 +13,20 @@ RUN rm -f apache-tomcat-10.1.17.tar.gz
 RUN yum update -y && yum install -y java && yum clean all
 # nettoyer le téléchargement
 
-# TODO2 changer le dossier home de l'utilisateur vers /opt/tomcat/webapps
+# TODO2 changer le dossier home de l'utilisateur vers /opt/tomcat/tomcat.../webapps
+WORKDIR /opt/tomcat/apache-tomcat-10.1.17/webapps/
 
 # TODO3 télécharger l'application sample https://tomcat.apache.org/tomcat-10.1-doc/appdev/sample/sample.war dans le dossier home 
+ADD https://tomcat.apache.org/tomcat-10.1-doc/appdev/sample/sample.war sample.war
 
 # TODO4 persister le dossier home pour accéder ou sauvegarder les apps
+VOLUME /opt/tomcat/apache-tomcat-10.1.17/webapps/
 
 # TODO5 pour communiquer avec httpd avec le port 8080
+EXPOSE 8080
 
+## pour concatener l'entrypoint et le cmd on doit utiliser l'écriture avec les tokens []
 # TODO6 exécuter de manière statique (sans substitution) le binaire en foreground catalina.sh vs startup.sh ???
-
+ENTRYPOINT ["/opt/tomcat/apache-tomcat-10.1.17/bin/catalina.sh"]
 # TODO7 ajouter la sous commande pour lancer en one shot run ou start ???
-
+CMD ["run"]
