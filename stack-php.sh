@@ -7,6 +7,16 @@ docker network rm stack-php
 
 docker network create stack-php
 
+# -e MARIADB_ROOT_PASSWORD=roottoor \
+
+# docker run \
+# --name stack-php-mariadb \
+# -d --restart unless-stopped \
+# -v db_data:/var/lib/mysql \
+# --env-file /vagrant/.env
+# mariadb:10.11.6
+
+
 docker run \
 --name stack-php-php8 \
 -d --restart unless-stopped \
