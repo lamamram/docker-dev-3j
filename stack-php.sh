@@ -15,6 +15,14 @@ docker network create stack-php --driver=bridge --subnet=172.18.0.0/16 --gateway
 # -e MARIADB_DATABASE=test \
 # -e MARIADB_ROOT_PASSWORD=roottoor \
 
+## toujours essayer d'utiliser des conteneurs "one shot" pour tester les
+## exemple
+# docker run \
+# -it --rm \
+# --net stack-php \
+# mariadb:10.11.6 \
+# mariadb --host stack-php-mariadb --user test --password --database test
+
 docker run \
 --name stack-php-mariadb \
 -d --restart unless-stopped \
@@ -39,4 +47,3 @@ docker run \
 --net stack-php \
 -v /vagrant/php8.2.conf:/etc/nginx/conf.d/php8.2.conf:ro \
 nginx:1.22
-
