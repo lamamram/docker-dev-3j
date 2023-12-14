@@ -4,17 +4,25 @@
 && docker rm $(docker ps -aq -f name=stack-php)
 
 docker network rm stack-php
+# ne pas oublier de détruire le volume nommé tant qu'on expérimente
+# ou gérer uniquement le volume après les autres configuration
+docker volume rm db_data
 
-docker network create stack-php
+docker network create stack-php --driver=bridge --subnet=172.18.0.0/16 --gateway=172.18.0.1
 
+# -e MARIADB_USER=test \
+# -e MARIADB_PASSWORD=roottoor \
+# -e MARIADB_DATABASE=test \
 # -e MARIADB_ROOT_PASSWORD=roottoor \
 
-# docker run \
-# --name stack-php-mariadb \
-# -d --restart unless-stopped \
-# -v db_data:/var/lib/mysql \
-# --env-file /vagrant/.env
-# mariadb:10.11.6
+docker run \
+--name stack-php-mariadb \
+-d --restart unless-stopped \
+--env-file /vagrant/.env \
+--net stack-php \
+-v db_data:/var/lib/mysql \
+-v /vagrant/mariadb-init.sql:/docker-entrypoint-initdb.d/mariadb-init.sql \
+mariadb:10.11.6
 
 
 docker run \
