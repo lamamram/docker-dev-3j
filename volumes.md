@@ -13,12 +13,12 @@
   * :ro ou :readonly => une fois injecté, pas de MAJ dans l'hôte si changement dans le conteneur
   * `docker run --name nginx -d -p 8080:80 -v /vagrant/php8.2.conf:/etc/nginx/conf.d/php8.2.conf:ro nginx:1.22`
 
-2. --mount type=bind,src=/vagrant/php8.2.conf,dest=/etc/nginx/conf.d/php8.2.conf,readonly
+2. --mount type=bind,src=/vagrant/php8.2.conf,dst=/etc/nginx/conf.d/php8.2.conf,readonly
   * intérêt de --mount: utiliser le paramètre volume-opts (customiser le type de stockage)
   *  --mount key=value,...,
-            volume-opt=driver=local,
-            volume-opt=type=nfs
-            volume-opt=device=192.168.x.y:/storage
+            volume-opt driver=local,
+            volume-opt type=nfs
+            volume-opt device=192.168.x.y:/storage
 
 > remplace avantageusement le docker cp !!!
 

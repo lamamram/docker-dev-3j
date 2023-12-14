@@ -11,7 +11,7 @@ docker run \
 --name stack-php-php8 \
 -d --restart unless-stopped \
 --net stack-php \
--v /vagrant/index.php:/srv/index.php \
+--mount type=bind,src=/vagrant/index.php,dst=/srv/index.php \
 bitnami/php-fpm:8.2-debian-11
 
 docker run \
@@ -19,5 +19,5 @@ docker run \
 -d --restart unless-stopped \
 -p 8080:80 \
 --net stack-php \
--v /vagrant/php8.2.conf:/etc/nginx/conf.d/php8.2.conf \
+-v /vagrant/php8.2.conf:/etc/nginx/conf.d/php8.2.conf:ro \
 nginx:1.22
