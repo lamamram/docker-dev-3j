@@ -9,6 +9,7 @@ LABEL stack="stack-java"
 LABEL stack.version="1.0.0"
 
 ARG APP_NAME
+ARG APP_CHECK
 
 # injecter des fichiers depuis le dossier de travail (contexte du build) vers l'image
 COPY httpd.conf /usr/local/apache2/conf/httpd.conf
@@ -17,9 +18,14 @@ COPY httpd.conf /usr/local/apache2/conf/httpd.conf
 RUN mkdir /usr/local/apache2/conf/sites
 
 COPY ${APP_NAME}.conf /usr/local/apache2/conf/sites/${APP_NAME}.conf
+COPY ${APP_CHECK} /usr/local/${APP_CHECK}
 
 # déclarer l'ouvertre d'un port pour la communication inter container
 EXPOSE 80
+
+# un HEALTHCHECK capable de scruter le service de manière temporaire
+HEALTHCHECK --interval=5m --timeout=3s \
+    CMD /usr/local/${APP_CHECK} || exit 1
 
 # écriture avec tokens
 # CMD [ "httpd", "-D", "FOREGROUND" ]
