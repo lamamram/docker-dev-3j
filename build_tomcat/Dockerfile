@@ -1,4 +1,11 @@
 FROM quay.io/centos/centos:stream9
+
+LABEL author="matt"
+LABEL created_at.year="2023"
+LABEL created_at.date="2023-12-15"
+LABEL stack="stack-java"
+LABEL stack.version="1.0.0"
+
 # TODO 1
 # on travaille à partir de l'image quay.io/centos/centos:stream9
 # on télécharge tomcat via https://downloads.apache.org/tomcat/
