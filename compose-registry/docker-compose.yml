@@ -7,4 +7,15 @@ services:
     # port http default
     ports:
       - 443:443
-    
+      - 5000:5000
+    # volumes:
+    #   - ./certs:/certs
+    #   - ./conf:/etc/docker/registry
+    #   - ./auth:/auth
+    # environment:
+    #   - REGISTRY_HTTP_TLS_CERTIFICATE=/certs/registry.crt
+    #   - REGISTRY_HTTP_TLS_KEY=/certs/registry.REGISTRY_HTTPS_TLS_KEY
+    #   # - REGISTRY_HTTP_ADDR=0.0.0.0:443
+    #   - REGISTRY_AUTH=htpasswd
+    #   - REGISTRY_AUTH_HTTPASSWD_PATH=/auth/REGISTRY_AUTH_HTTPASSWD_PATH
+    #   - REGISTRY_AUTH_HTTPASSWD_REALM="Registry Realm"
