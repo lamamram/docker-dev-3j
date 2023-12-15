@@ -14,6 +14,14 @@ services:
     image: nginx:1.22
     depends_on:
       - php
+    labels:
+      - author=matt
+      - created_at.year="2023"
+      - created_at.date="2023-12-14"
+      - stack="stack-java"
+      - stack.version="1.0.0"
+    profiles:
+      - stack
   php:
     container_name: stack-php-php8
     restart: unless-stopped
@@ -24,6 +32,21 @@ services:
     image: bitnami/php-fpm:8.2-debian-11
     depends_on:
       - db
+    profiles:
+      - stack
+  backup:
+    container_name: backup
+    
+    volumes:
+      - /vagrant/backup:/backup
+    volumes_from:
+      - db
+    depends_on:
+      - db
+    image: debian:12-slim
+    command: tar cvf /backup/backup.tar /var/lib/mysql
+    profiles:
+      - backup 
   db:
     container_name: stack-php-mariadb
     restart: unless-stopped
@@ -34,8 +57,13 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - /vagrant/mariadb-init.sql:/docker-entrypoint-initdb.d/mariadb-init.sql
-    image: mariadb:10.11.6 
+    image: mariadb:10.11.6
+    # use case de composition via docker compose --profile stack | backup
+    profiles:
+      - stack 
+      - backup 
     
+
 
 ## réseau pré-existant
 networks:
