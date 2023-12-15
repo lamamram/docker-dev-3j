@@ -8,13 +8,15 @@ LABEL created_at.date="2023-12-14"
 LABEL stack="stack-java"
 LABEL stack.version="1.0.0"
 
+ARG APP_NAME
+
 # injecter des fichiers depuis le dossier de travail (contexte du build) vers l'image
 COPY httpd.conf /usr/local/apache2/conf/httpd.conf
 
 # exécution de commandes
 RUN mkdir /usr/local/apache2/conf/sites
 
-COPY java_app.conf /usr/local/apache2/conf/sites/java_app.conf
+COPY ${APP_NAME}.conf /usr/local/apache2/conf/sites/${APP_NAME}.conf
 
 # déclarer l'ouvertre d'un port pour la communication inter container
 EXPOSE 80
