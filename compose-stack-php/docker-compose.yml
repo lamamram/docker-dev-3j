@@ -1,0 +1,26 @@
+---
+version: "3.9"
+
+services:
+  # web:
+  # php:
+  db:
+    container_name: stack-php-mariadb
+    # ...
+
+## réseau pré-existant
+networks:
+#   stack-php:
+#     name: stack-php
+#     external: true
+  stack-php:
+    # name: stack-php
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+          gateway: 172.18.0.1
+      
+
+  
+
