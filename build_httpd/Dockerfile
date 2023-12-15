@@ -24,8 +24,8 @@ COPY ${APP_CHECK} /usr/local/${APP_CHECK}
 EXPOSE 80
 
 # un HEALTHCHECK capable de scruter le service de manière temporaire
-HEALTHCHECK --interval=5m --timeout=3s \
-    CMD /usr/local/${APP_CHECK} || exit 1
+# HEALTHCHECK --interval=10s --timeout=3s \
+#     CMD /usr/local/${APP_CHECK} || exit 1
 
 # écriture avec tokens
 # CMD [ "httpd", "-D", "FOREGROUND" ]
