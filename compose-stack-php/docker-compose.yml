@@ -2,11 +2,40 @@
 version: "3.9"
 
 services:
-  # web:
-  # php:
+  web:
+    container_name: stack-php-nginx
+    restart: unless-stopped
+    ports:
+      - 8080:80
+    networks:
+      - stack-php
+    volumes:
+      - /vagrant/php8.2.conf:/etc/nginx/conf.d/php8.2.conf:ro
+    image: nginx:1.22
+    depends_on:
+      - php
+  php:
+    container_name: stack-php-php8
+    restart: unless-stopped
+    networks:
+      - stack-php
+    volumes:
+      - /vagrant/index.php:/srv/index.php
+    image: bitnami/php-fpm:8.2-debian-11
+    depends_on:
+      - db
   db:
     container_name: stack-php-mariadb
-    # ...
+    restart: unless-stopped
+    env_file:
+      - /vagrant/.env
+    networks:
+      - stack-php
+    volumes:
+      - db_data:/var/lib/mysql
+      - /vagrant/mariadb-init.sql:/docker-entrypoint-initdb.d/mariadb-init.sql
+    image: mariadb:10.11.6 
+    
 
 ## réseau pré-existant
 networks:
@@ -14,12 +43,16 @@ networks:
 #     name: stack-php
 #     external: true
   stack-php:
-    # name: stack-php
+    name: stack-php
     driver: bridge
     ipam:
       config:
         - subnet: 172.18.0.0/16
           gateway: 172.18.0.1
+
+volumes:
+  db_data:
+    name: db_data
       
 
   
