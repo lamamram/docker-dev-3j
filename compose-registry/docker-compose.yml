@@ -1,0 +1,10 @@
+---
+version: '3'
+
+services:
+  registry:
+    image: registry:2.8
+    # port http default
+    ports:
+      - 443:443
+    
