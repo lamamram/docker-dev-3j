@@ -39,15 +39,6 @@ apt-get install -yq \
 
 # ajout de l'utilisateur vagrant au groupe docker 
 # autorisé à exécuter des commandes docker sans sudo
-usermod -aG docker vagrant
+# usermod -aG docker vagrant
 
-machine_version="0.16.2"
-base="https://github.com/docker/machine/releases/download/v${machine_version}" && \
-  curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine && \
-  sudo install /tmp/docker-machine /usr/local/bin/docker-machine
-
-base="https://raw.githubusercontent.com/docker/machine/v${machine_version}"
-for i in docker-machine-prompt.bash docker-machine-wrapper.bash docker-machine.bash; do
-  sudo wget "$base/contrib/completion/bash/${i}" -P /etc/bash_completion.d
-done
 
