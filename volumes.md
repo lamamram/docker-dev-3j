@@ -57,4 +57,35 @@ docker run \
        tar -czvf /dump/dump_cold.gz /data
 ```
 
+### exemple de partage nfs
+```bash
+sudo apt-get install -y nfs-kernel-server
+sudo mkdir -p /mnt/nfsdir
+echo "contents" | sudo tee /mnt/nfsdir/test
+# TEST
+sudo chown -R nobody:nogroup /mnt/nfsdir
+sudo chmod 777 /mnt/nfsdir
+echo "/mnt/nfsdir *(rw,sync,no_subtree_check)" | sudo tee -a /etc/exports
+sudo exportfs -a
+sudo systemctl restart nfs-kernel-server
+```
+
+* création d'un volume docker nfs
+
+```bash
+docker volume create \
+              --driver local \
+              --opt type=nfs \
+              --opt o=addr=192.168.1.30,rw \
+              --opt device:/mnt/nfsdir \
+              nfs-vol
+```
+
+* utilisation
+`docker run --rm -v nfs-vol:/vol debian:12 cat /vol/test`
+
+
+
+
+
 
