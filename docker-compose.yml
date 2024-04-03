@@ -1,0 +1,41 @@
+---
+version: '3.9'
+
+## lancement: docker-compose up -d 
+## destruction docker-compose down [-v: suppression des volumes]
+# -d => mode détaché
+# quand on est dans le dossier et avec le fichier docker-compose.yml
+## lancement: docker-compose up -d -f /path/to/fichier.yml
+
+services:
+  # le nom arbitraire du service
+  stack_php_mariadb:
+    container_name: stack_php_mariadb
+    restart: unless-stopped
+    networks:
+      - stack_php
+    env_file:
+      - .env
+    # environment:
+    #   MARIADB_USER: test
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./mariadb-init.sql:/docker-entrypoint-initdb.d/mariadb-init.sql
+    image: mariadb:10.11.6
+  # stack_php_php8.2:
+  # stack_php_nginx:
+
+
+networks:
+  # nom arbitraire
+  stack_php:
+    name: stack_php
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+          gateway: 172.18.0.1
+
+volumes:
+  db_data:
+    name: db_data
