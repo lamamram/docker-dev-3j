@@ -52,6 +52,7 @@ docker run \
 # à froid: utilisation du volume nommé
 docker run \
        --rm \
+       --network none \
        -v db_data:/data \
        -v ./dump:/dump debian:12 \
        tar -czvf /dump/dump_cold.gz /data

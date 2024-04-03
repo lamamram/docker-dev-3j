@@ -4,6 +4,7 @@
 # -d => mode détaché
 # quand on est dans le dossier et avec le fichier docker-compose.yml
 ## lancement: docker-compose up -d -f /path/to/fichier.yml
+## en utilisant les profile: docker compose --profile xxx ...
 
 services:
   stack_php_nginx:
@@ -18,6 +19,8 @@ services:
     image: nginx:1.25.4
     depends_on:
       - stack_php_php8.2
+    profiles:
+      - run
 
   stack_php_php8.2:
     container_name: stack_php_php8.2
@@ -29,6 +32,8 @@ services:
     image: bitnami/php-fpm:8.2-debian-12
     depends_on:
       - stack_php_mariadb
+    profiles:
+      - run
   
   # le nom arbitraire du service
   stack_php_mariadb:
@@ -44,6 +49,21 @@ services:
       - db_data:/var/lib/mysql
       - ./mariadb-init.sql:/docker-entrypoint-initdb.d/mariadb-init.sql
     image: mariadb:10.11.6
+    profiles:
+      - run
+
+  ## on peut lancer ce service en one shot avec docker compose run --rm backup
+  backup:
+    image: debian:12
+    container_name: backup
+    network_mode: none
+    volumes:
+      - db_data:/data
+      - ./dump:/dump
+    command: tar -czvf /dump/dump_cold.gz /data
+    profiles:
+      - backup
+
 
 networks:
   # nom arbitraire
