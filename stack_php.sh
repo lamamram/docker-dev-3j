@@ -11,6 +11,13 @@ docker network create \
        --gateway=172.18.0.1 \
        stack_php
 
+docker run \
+       --name stack_php_mariadb \
+       -d --restart unless-stopped \
+       --net stack_php \
+       --env-file .env \
+       -v ./mariadb-init.sql:/docker-entrypoint-initdb.d/mariadb-init.sql \
+       mariadb:10.11.6 
 
 docker run \
        --name stack_php_php8.2 \
@@ -24,7 +31,7 @@ docker run \
        --name stack_php_nginx \
        -d --restart unless-stopped \
        --network stack_php \
-       -v ./php8.2.conf:/etc/nginx/conf.d/php8.2.conf \
+       -v ./php8.2.conf:/etc/nginx/conf.d/php8.2.conf:ro \
        -p 8080:80 \
        nginx:1.25.4
 
