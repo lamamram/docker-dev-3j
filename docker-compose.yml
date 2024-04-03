@@ -1,13 +1,35 @@
 ---
-version: '3.9'
-
-## lancement: docker-compose up -d 
-## destruction docker-compose down [-v: suppression des volumes]
+## lancement: docker compose up -d 
+## destruction docker compose down [-v: suppression des volumes]
 # -d => mode détaché
 # quand on est dans le dossier et avec le fichier docker-compose.yml
 ## lancement: docker-compose up -d -f /path/to/fichier.yml
 
 services:
+  stack_php_nginx:
+    container_name: stack_php_nginx
+    restart: unless-stopped
+    networks:
+      - stack_php
+    volumes:
+      - ./php8.2.conf:/etc/nginx/conf.d/php8.2.conf:ro
+    ports:
+      - 8080:80
+    image: nginx:1.25.4
+    depends_on:
+      - stack_php_php8.2
+
+  stack_php_php8.2:
+    container_name: stack_php_php8.2
+    restart: unless-stopped
+    networks:
+      - stack_php
+    volumes:
+      - ./index.php:/srv/index.php
+    image: bitnami/php-fpm:8.2-debian-12
+    depends_on:
+      - stack_php_mariadb
+  
   # le nom arbitraire du service
   stack_php_mariadb:
     container_name: stack_php_mariadb
@@ -22,13 +44,12 @@ services:
       - db_data:/var/lib/mysql
       - ./mariadb-init.sql:/docker-entrypoint-initdb.d/mariadb-init.sql
     image: mariadb:10.11.6
-  # stack_php_php8.2:
-  # stack_php_nginx:
-
 
 networks:
   # nom arbitraire
+  # nom composé avec "nom_du_dossier_network_name"
   stack_php:
+    # nom fixé
     name: stack_php
     driver: bridge
     ipam:
@@ -37,5 +58,7 @@ networks:
           gateway: 172.18.0.1
 
 volumes:
+  # nom composé avec "nom_du_dossier_volume_name"
   db_data:
+    # nom fixé
     name: db_data
