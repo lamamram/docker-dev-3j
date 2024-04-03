@@ -22,3 +22,39 @@
             volume-opt device=192.168.x.y:/storage
 
 > remplace avantageusement le docker cp !!!
+
+### volumes nommés
+
+> étiquette qui désigne un dossier dans /var/lib/docker/volumes géré par docker
+
+1. création rapide
+  * -v name:/path/to/dir:ro
+2. création à configurer
+  * docker volume create [name] --opt=... --opt=... --driver=...
+    + -v name:/path/to/dir
+3. --mount type=volume,src=[name],...
+4. volume anonyme
+  * -v /var/lib/mysql
+  > à utiliser avec l'option --volumes-from qui attache auto. les volumes d'un autre conteneur
+
+### exemple d'utilisation de volumes nommés dump à chaud et à froid
+```bash
+# à chaud
+docker run \
+       --rm \
+       --volumes-from stack_php_mariadb \
+       -v ./dump:/dump \ 
+       --net stack_php debian:12 \
+       tar -czvf /dump/dump.gz /var/lib/mysql
+```
+
+```bash
+# à froid: utilisation du volume nommé
+docker run \
+       --rm \
+       -v db_data:/data \
+       -v ./dump:/dump debian:12 \
+       tar -czvf /dump/dump_cold.gz /data
+```
+
+

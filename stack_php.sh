@@ -17,12 +17,14 @@ docker run \
        --net stack_php \
        --env-file .env \
        -v ./mariadb-init.sql:/docker-entrypoint-initdb.d/mariadb-init.sql \
+       -v db_data:/var/lib/mysql \
        mariadb:10.11.6 
 
 docker run \
        --name stack_php_php8.2 \
        -d --restart unless-stopped \
        --network stack_php \
+       --env-file .env \
        -v ./index.php:/srv/index.php \
        bitnami/php-fpm:8.2-debian-12
 
