@@ -16,6 +16,7 @@ docker run \
        --name stack_php_php8.2 \
        -d --restart unless-stopped \
        --network stack_php \
+       -v ./index.php:/srv/index.php \
        bitnami/php-fpm:8.2-debian-12
 
 
@@ -23,5 +24,7 @@ docker run \
        --name stack_php_nginx \
        -d --restart unless-stopped \
        --network stack_php \
+       -v ./php8.2.conf:/etc/nginx/conf.d/php8.2.conf \
        -p 8080:80 \
        nginx:1.25.4
+
