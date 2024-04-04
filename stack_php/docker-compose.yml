@@ -72,10 +72,10 @@ networks:
     # nom fixé
     name: stack_php
     driver: bridge
-    ipam:
-      config:
-        - subnet: 172.18.0.0/16
-          gateway: 172.18.0.1
+    # ipam:
+    #   config:
+    #     - subnet: 172.18.0.0/16
+    #       gateway: 172.18.0.1
 
 volumes:
   # nom composé avec "nom_du_dossier_volume_name"

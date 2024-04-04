@@ -1,0 +1,37 @@
+---
+
+services:
+  stack-java-tomcat:
+    container_name: stack-java-tomcat
+    image: stack_java_tomcat:1.0
+    build:
+      context: ./stack_java_tomcat
+      dockerfile: Dockerfile
+      args:
+        - TOMCAT_VERSION_MAJOR=${TOMCAT_VERSION_MAJOR:-9}
+        - TOMCAT_VERSION_FULL=${TOMCAT_VERSION_FULL:-9.0.85}
+    networks:
+      - stack_java
+    restart: unless-stopped
+
+  
+  stack_java_httpd:
+    container_name: stack_java_httpd
+    image: stack_java_httpd:v1.0
+    build:
+      context: ./stack_java_hhttpd
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    networks:
+      - stack_java
+    ports:
+      - 8081:80
+    depends_on:
+      # ici on utilise le nom du service non pas le nom du container
+      - stack-java-tomcat
+
+
+networks:
+  stack_java:
+    name: stack_java
+    driver: bridge
