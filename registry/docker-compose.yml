@@ -1,0 +1,30 @@
+---
+
+services:
+  registry:
+    image: registry:2
+    container_name: local-registry
+    restart: unless-stopped    
+    environment:
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/registry.crt
+      REGISTRY_HTTP_TLS_KEY: /certs/registry.key
+      REGISTRY_HTTP_ADDR: 0.0.0.0:443
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+    ports:
+      - 5000:5000
+      - 443:443
+    networks:
+      - registry
+    volumes:
+      - ./certs:/certs:ro
+      - ./auth:/auth
+
+networks:
+  registry:
+    # utiliser un réseau existant
+    name: stack_java
+    external: true
+      
+  

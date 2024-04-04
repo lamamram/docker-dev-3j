@@ -36,8 +36,14 @@ USER tomcat
 ## persister le dossier home pour accéder ou sauvegarder les apps
 VOLUME ["/opt/tomcat/webapps"]
 ## pour communiquer avec httpd avec le port 8080
-EXPOSE 8080
 ## exécuter de manière statique (sans substitution) le binaire en foreground catalina.sh vs startup.sh ???
 # ENTRYPOINT ["/opt/tomcat/bin/catalina.sh"]
 ## ajouter la sous commande pour lancer en one shot run ou start ???
 CMD ["/opt/tomcat/bin/catalina.sh", "run"]
+
+HEALTHCHECK \
+  --interval=10s \
+  --timeout=30s \
+  --start-period=5s \
+  --retries=3 \
+  CMD grep "Server startup" /opt/tomcat/logs/catalina.*.log
