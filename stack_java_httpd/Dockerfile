@@ -5,7 +5,7 @@ LABEL created_at="2024-02-03"
 LABEL created_at.year="2024"
 
 ## on veut modifier qqch sur l'image de base
-RUN mkdir -p /usr/local/apche2/conf/sites
+RUN mkdir -p /usr/local/apache2/conf/sites
 
 ## injecter des fichiers / dossiers depuis l'host vers l'image
 COPY ./httpd.conf /usr/local/apache2/conf/sites/httpd.conf
