@@ -7,6 +7,9 @@ LABEL created_at="2024-04-04"
 LABEL stack="java"
 LABEL stack.part="tomcat"
 
+ARG TOMCAT_VERSION_MAJOR=9
+ARG TOMCAT_VERSION_FULL=9.0.85
+
 ## ajouter un dossier /opt/tomcat
 RUN mkdir /opt/tomcat
 
@@ -17,7 +20,7 @@ RUN mkdir /opt/tomcat
 ## ajouter un utilisateur tomcat avec le dossier /opt/tomcat comme home
 ## changer le home de l'image vers /opt/tomcat/tomcat/webapps
 # Optimisation des RUN pour ne créer qu'une seule couche => un seul état => + léger en disque
-RUN curl https://downloads.apache.org/tomcat/tomcat-9/v9.0.85/bin/apache-tomcat-9.0.85.tar.gz \
+RUN curl https://downloads.apache.org/tomcat/tomcat-${TOMCAT_VERSION_MAJOR}/v${TOMCAT_VERSION_FULL}/bin/apache-tomcat-${TOMCAT_VERSION_FULL}.tar.gz \
     | tar -xvz -C /opt/tomcat/ --strip-components=1 && \
     yum update -q && yum install java -y -q && \
     yum clean all && \

@@ -6,12 +6,19 @@ LABEL created_at.year="2024"
 LABEL stack="java"
 LABEL stack.part="httpd"
 
+ENV HOME=/
+ENV SITES_DIR=/usr/local/apache2/conf/sites
+
+ARG VHOST=java_app
+
+## conf générale
+COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf
 
 ## on veut modifier qqch sur l'image de base
-RUN mkdir -p /usr/local/apache2/conf/sites
+RUN mkdir -p ${SITES_DIR}
 
 ## injecter des fichiers / dossiers depuis l'host vers l'image
-COPY ./httpd.conf /usr/local/apache2/conf/sites/httpd.conf
+COPY ./java_app.conf ${SITES_DIR}/${VHOST}.conf
 # lent
 # ADD http://xxxxx.xxx/truc dest
 
