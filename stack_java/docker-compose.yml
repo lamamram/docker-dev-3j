@@ -3,8 +3,9 @@
 services:
   stack-java-tomcat:
     container_name: stack-java-tomcat
-    image: stack_java_tomcat:1.0
+    image: localhost:443/stack_java_tomcat:1.0
     build:
+      # no_cache: true
       context: ./stack_java_tomcat
       dockerfile: Dockerfile
       args:
@@ -19,6 +20,7 @@ services:
     container_name: stack_java_httpd
     image: stack_java_httpd:v1.0
     build:
+      # no_cache: true
       context: ./stack_java_httpd
       dockerfile: Dockerfile
     restart: unless-stopped
