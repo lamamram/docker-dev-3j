@@ -20,7 +20,7 @@
 * quand on modifie le build, les directives identiques sont cachées en tant que couche
 * donc le re-build est plus rapide, mais des couches utlérieures peuvent être invalidées par nos changement,
 
-* on peut builder sans cache build --no-cache
+* on peut builder sans cache `build --no-cache`
 * mais le cache de la directive FROM ne peut être invalidée qu'avec `docker buildx prune -a --filter "until=xxm"` i.e pour invalider les caches récents
 
 ### gestion du contexte de build
