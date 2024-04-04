@@ -19,7 +19,7 @@ services:
     container_name: stack_java_httpd
     image: stack_java_httpd:v1.0
     build:
-      context: ./stack_java_hhttpd
+      context: ./stack_java_httpd
       dockerfile: Dockerfile
     restart: unless-stopped
     networks:

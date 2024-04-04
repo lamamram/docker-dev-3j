@@ -18,7 +18,7 @@ RUN mkdir /opt/tomcat
 ## installer java (yum)
 ## nettoyer les paquets yum
 ## ajouter un utilisateur tomcat avec le dossier /opt/tomcat comme home
-## changer le home de l'image vers /opt/tomcat/tomcat/webapps
+## changer le home de l'image vers /opt/tomcat/webapps
 # Optimisation des RUN pour ne créer qu'une seule couche => un seul état => + léger en disque
 RUN curl https://downloads.apache.org/tomcat/tomcat-${TOMCAT_VERSION_MAJOR}/v${TOMCAT_VERSION_FULL}/bin/apache-tomcat-${TOMCAT_VERSION_FULL}.tar.gz \
     | tar -xvz -C /opt/tomcat/ --strip-components=1 && \
@@ -26,7 +26,7 @@ RUN curl https://downloads.apache.org/tomcat/tomcat-${TOMCAT_VERSION_MAJOR}/v${T
     yum clean all && \
     useradd -m -d /opt/tomcat -U tomcat
 
-WORKDIR /opt/tomcat/tomcat/webapps
+WORKDIR /opt/tomcat/webapps
 ## télécharger l'application sample https://tomcat.apache.org/tomcat-10.1-doc/appdev/sample/sample.war dans le dossier home 
 ADD https://tomcat.apache.org/tomcat-10.1-doc/appdev/sample/sample.war .
 ## spécifier le propriétaire et groupe à tomcat
@@ -34,10 +34,10 @@ RUN chown -R tomcat:tomcat /opt/tomcat
 ## changer l'utilisateur à tomcat
 USER tomcat
 ## persister le dossier home pour accéder ou sauvegarder les apps
-VOLUME ["/opt/tomcat/tomcat/webapps"]
+VOLUME ["/opt/tomcat/webapps"]
 ## pour communiquer avec httpd avec le port 8080
 EXPOSE 8080
 ## exécuter de manière statique (sans substitution) le binaire en foreground catalina.sh vs startup.sh ???
-ENTRYPOINT ["/opt/tomcat/bin/catalina.sh"]
+# ENTRYPOINT ["/opt/tomcat/bin/catalina.sh"]
 ## ajouter la sous commande pour lancer en one shot run ou start ???
-CMD ["run"]
+CMD ["/opt/tomcat/bin/catalina.sh", "run"]

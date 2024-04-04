@@ -94,10 +94,11 @@ obj:
 1. remplacer le port 9000 dans la conf ngnix par ${PHP_PORT}
 2. utiliser envsusbst pour remplacer cette variable par sa valeur
    dans le fichier
-   - envsubst < [template] > [fichier interpolé]
+   - envsubst '$BAR' < [template.tpl] > [fichier interpolé.yml]
    - remplacer le template par le fchier interpolé
 3. modifier le docker-compose.yml pour
   - injecter la variable d'environnement dans le conteneur de façon masquée
+  - ne fonctionne pas avec les valeurs par défaut ${VAR:-default}
 
 4. aller plus loin
   - modifier le port écouté sut le conteneur php => /opt/bitnami/php/etc/php-fpm.d/www.conf

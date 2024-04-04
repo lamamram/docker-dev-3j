@@ -6,7 +6,7 @@ LABEL created_at.year="2024"
 LABEL stack="java"
 LABEL stack.part="httpd"
 
-ENV HOME=/
+#ENV HOME=/
 ENV SITES_DIR=/usr/local/apache2/conf/sites
 
 ARG VHOST=java_app
